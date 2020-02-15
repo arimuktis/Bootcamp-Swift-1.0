@@ -17,7 +17,7 @@ struct ContentView: View {
     @State private var selection = 0
 
     init() {
-//        UITabBar.appearance().barTintColor = colortab
+        UITabBar.appearance().barTintColor = colortab
         
        
     }
@@ -25,17 +25,20 @@ struct ContentView: View {
     
 //
         ZStack{
-//            Color.init(aColor!)
-//                .edgesIgnoringSafeArea(.top)
+            Color.init(colorbg)
+                .edgesIgnoringSafeArea(.top)
             TabView(selection: $selection){
              ZStack {
-
+                Color.init(colorbg)
+                    .edgesIgnoringSafeArea(.top)
                  VStack(spacing: 20) {
                      
                      Image("landscape-tmdb")
                          .resizable()
                          .frame(width: 135.0, height: 50.0) //that is not the solution to change image size
-                         .padding()
+                        .padding()
+                        .aspectRatio(contentMode: /*@START_MENU_TOKEN@*/.fill/*@END_MENU_TOKEN@*/)
+                        .scaledToFit()
                      Text("TabView")
                          .font(.largeTitle).foregroundColor(.white)
                      Text("TabItem Colors")
@@ -62,10 +65,12 @@ struct ContentView: View {
                  .tag(0)
              
              ZStack{
+                Color.init(colorbg)
+                    .edgesIgnoringSafeArea(.top)
 
                  VStack{
                      Text("Popular")
-                         .foregroundColor(.white)
+                         .foregroundColor(.black)
                      .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                      .font(.title)
                      .italic()
@@ -80,6 +85,7 @@ struct ContentView: View {
                  .tag(1)
              
              ZStack{
+                Color.init(colorbg).edgesIgnoringSafeArea(.top)
                  VStack{
                      Text("Hello, World!")
                          .foregroundColor(Color.init(coloracc))
@@ -99,6 +105,7 @@ struct ContentView: View {
                  .tag(2)
              
             }.accentColor(Color.init(coloracc))
+                .edgesIgnoringSafeArea(.top)
            
         }
         
