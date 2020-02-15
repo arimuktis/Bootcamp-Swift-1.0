@@ -7,8 +7,11 @@
 //
 
 import SwiftUI
+import SDWebImageSwiftUI
 
 struct ContentView: View {
+    
+    @ObservedObject var obs = observer()
     
     let colorbg = UIColor(rgb: 0x081C24)
     let coloracc = UIColor(rgb: 0x01d277)
@@ -22,8 +25,11 @@ struct ContentView: View {
        
     }
     var body: some View {
-    
-//
+        
+        
+        
+        
+        
         ZStack{
             Color.init(colorbg)
                 .edgesIgnoringSafeArea(.all)
@@ -32,7 +38,7 @@ struct ContentView: View {
                 Color.init(colorbg)
                     .edgesIgnoringSafeArea(.all)
                  VStack(spacing: 20) {
-                     
+
                      Image("landscape-tmdb")
                          .resizable()
                          .frame(width: 135.0, height: 50.0) //that is not the solution to change image size
@@ -49,7 +55,7 @@ struct ContentView: View {
 
                          .frame(minWidth: 0, maxWidth: .infinity).padding()
 
-                         .background(Color.blue).foregroundColor(Color.white)
+                         .background(Color.init(coloracc)).foregroundColor(Color.white)
 
                          .font(.title)
 
@@ -63,18 +69,18 @@ struct ContentView: View {
                          }
                  }
                  .tag(0)
-             
+
              ZStack{
                 Color.init(colorbg)
                     .edgesIgnoringSafeArea(.all)
-
-                 VStack{
-                     Text("Popular")
-                         .foregroundColor(.black)
-                     .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                     .font(.title)
-                     .italic()
-                     }
+                
+                NavigationView{
+                    List(obs.movieList) {i in
+                        
+                        ListRow(url: i.poster_path, name: i.original_title, rating: i.vote_average, release_date: i.release_date)
+                    }
+                    
+                }.navigationBarTitle("Popular")
                  }
                  .tabItem{
                          VStack{
@@ -83,7 +89,7 @@ struct ContentView: View {
                          }
                  }
                  .tag(1)
-             
+
              ZStack{
                 Color.init(colorbg).edgesIgnoringSafeArea(.all)
                  VStack{
@@ -94,8 +100,8 @@ struct ContentView: View {
                      .italic()
                  }
              }
-             
-                 
+
+
                  .tabItem{
                      VStack{
                          Image(systemName: "play.circle.fill")
@@ -103,9 +109,9 @@ struct ContentView: View {
                          }
                  }
                  .tag(2)
-             
+
             }.accentColor(Color.init(coloracc))
-           
+
         }
         
         
@@ -136,4 +142,66 @@ extension UIColor {
            blue: rgb & 0xFF
        )
    }
+}
+
+class observer : ObservableObject{
+    @Published var movieList = [modeldatatype]()
+    
+    init() {
+        let url = "https://api.themoviedb.org/3/movie/popular?api_key=8897c211c4af54fb09ad89b42353a210&language=en-US&page=1"
+        let sess = URLSession(configuration: .default)
+        
+        sess.dataTask(with: URL(string: url)!) { (data, _, _) in
+            do{
+                let fetch = try JSONDecoder().decode(datatype.self, from: data!)
+                DispatchQueue.main.async {
+                    self.movieList = fetch.results
+                }
+            }catch{
+                print(error.localizedDescription)
+            }
+        }.resume()
+    }
+    
+}
+
+struct datatype : Decodable{
+    
+    var results : [modeldatatype]
+    
+}
+
+struct modeldatatype : Identifiable, Decodable {
+    
+    var id : Int
+    var original_title : String
+    var vote_average : CGFloat
+    var poster_path : String
+//    var backdrop_parth : String
+//    var overview : String
+    var release_date : String
+}
+
+struct ListRow : View {
+    
+    var url = ""
+    var name = ""
+    var rating : CGFloat = 0
+    var release_date = ""
+    
+    var body : some View{
+        
+        HStack{
+            AnimatedImage(url: URL(string: "https://image.tmdb.org/t/p/w500\(url)")).resizable().clipShape(RoundedRectangle(cornerRadius: 25.0)).frame(width: 150, height: 150)
+            
+            VStack{
+                Text(name).fontWeight(.heavy)
+                Text("Rating = \(rating)")
+                Text(release_date).lineLimit(2)
+                
+            }
+        }
+        
+        
+    }
 }
