@@ -12,12 +12,12 @@ struct ContentView: View {
     
     let colorbg = UIColor(rgb: 0x081C24)
     let coloracc = UIColor(rgb: 0x01d277)
-    let colortab = UIColor(rgb: 0xF0F0F0)
+    let colortab = UIColor(rgb: 0x0C1519)
     let aColor = UIColor(named: "customControlColor")
     @State private var selection = 0
 
     init() {
-        UITabBar.appearance().barTintColor = colortab
+        UITabBar.appearance().barTintColor = colorbg
         
        
     }
@@ -26,11 +26,11 @@ struct ContentView: View {
 //
         ZStack{
             Color.init(colorbg)
-                .edgesIgnoringSafeArea(.top)
+                .edgesIgnoringSafeArea(.all)
             TabView(selection: $selection){
              ZStack {
                 Color.init(colorbg)
-                    .edgesIgnoringSafeArea(.top)
+                    .edgesIgnoringSafeArea(.all)
                  VStack(spacing: 20) {
                      
                      Image("landscape-tmdb")
@@ -66,7 +66,7 @@ struct ContentView: View {
              
              ZStack{
                 Color.init(colorbg)
-                    .edgesIgnoringSafeArea(.top)
+                    .edgesIgnoringSafeArea(.all)
 
                  VStack{
                      Text("Popular")
@@ -85,7 +85,7 @@ struct ContentView: View {
                  .tag(1)
              
              ZStack{
-                Color.init(colorbg).edgesIgnoringSafeArea(.top)
+                Color.init(colorbg).edgesIgnoringSafeArea(.all)
                  VStack{
                      Text("Hello, World!")
                          .foregroundColor(Color.init(coloracc))
@@ -105,7 +105,6 @@ struct ContentView: View {
                  .tag(2)
              
             }.accentColor(Color.init(coloracc))
-                .edgesIgnoringSafeArea(.top)
            
         }
         
