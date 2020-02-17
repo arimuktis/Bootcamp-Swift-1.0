@@ -22,46 +22,63 @@ struct ContentView: View {
     init() {
         UITabBar.appearance().barTintColor = colorbg
         
-       
+        // NavBar
+        UINavigationBar.appearance().backgroundColor = colorbg
+        UINavigationBar.appearance().largeTitleTextAttributes = [
+             .foregroundColor: coloracc]
+//             .font : UIFont(name:"Papyrus", size: 40)!]
+//        UINavigationBar.appearance().titleTextAttributes = [
+//             .font : UIFont(name: "HelveticaNeue-Thin", size: 20)!]
     }
+    
+    
     var body: some View {
-        
-        
-        
-        
-        
+
         ZStack{
             Color.init(colorbg)
                 .edgesIgnoringSafeArea(.all)
             TabView(selection: $selection){
-             ZStack {
-                Color.init(colorbg)
-                    .edgesIgnoringSafeArea(.all)
-                 VStack(spacing: 20) {
-
-                     Image("landscape-tmdb")
+                VStack{
+                        Image("landscape-tmdb")
                          .resizable()
                          .frame(width: 135.0, height: 50.0) //that is not the solution to change image size
                         .padding()
                         .aspectRatio(contentMode: /*@START_MENU_TOKEN@*/.fill/*@END_MENU_TOKEN@*/)
                         .scaledToFit()
-                     Text("TabView")
-                         .font(.largeTitle).foregroundColor(.white)
-                     Text("TabItem Colors")
+                        Divider()
+//                    .navigationBarItems(leading:
+//                    HStack {
+//                        Button(action: {}) {
+//                            Image(systemName: "minus.square.fill")
+//                                .font(.largeTitle)
+//                        }.foregroundColor(.pink)
+//                    }, trailing:
+//                    HStack {
+//                        Button(action: {}) {
+//                            Image(systemName: "plus.square.fill")
+//                                .font(.largeTitle)
+//                        }.foregroundColor(.blue)
+//                    })
+                        ZStack() {
+                            Color.init(colorbg)
+                            .edgesIgnoringSafeArea(.all)
+                           VStack(alignment: .center, spacing: 20) {
+                                Text("TabView")
+                                    .font(.largeTitle).foregroundColor(.white)
+                                Text("TabItem Colors")
 
-                         .font(.title).foregroundColor(.gray)
+                                    .font(.title).foregroundColor(.gray)
 
-                     Text("Set the color of the active tab item by setting the accent color for the TabView.")
+                                Text("Set the color of the active tab item by setting the accent color for the TabView.")
 
-                         .frame(minWidth: 0, maxWidth: .infinity).padding()
+                                    .frame(minWidth: 0, maxWidth: .infinity).padding() .background(Color.init(coloracc)).foregroundColor(Color.white)
 
-                         .background(Color.init(coloracc)).foregroundColor(Color.white)
-
-                         .font(.title)
-
-                 }
-
-             }
+                                    .font(.title)
+                            }
+                        }
+                    
+                }
+                 .background(Color.init(colorbg))
                  .tabItem{
                          VStack {
                              Image(systemName: "house.fill")
@@ -73,14 +90,19 @@ struct ContentView: View {
              ZStack{
                 Color.init(colorbg)
                     .edgesIgnoringSafeArea(.all)
-                
+
                 NavigationView{
-                    List(obs.movieList) {i in
-                        
-                        ListRow(url: i.poster_path, name: i.original_title, rating: i.vote_average, release_date: i.release_date)
+                        ScrollView(.vertical){
+                            VStack{
+                            ForEach(obs.movieList) {i in
+                            ListRow(url: i.poster_path, name: i.original_title, rating: i.vote_average, release_date: i.release_date)
+                                }
+                            }
+                            .background(Color.init(colortab))
+                        }
+                        .navigationBarTitle("Popular")
+                        .background(Color.init(colortab))
                     }
-                    
-                }.navigationBarTitle("Popular")
                  }
                  .tabItem{
                          VStack{
@@ -105,7 +127,7 @@ struct ContentView: View {
                  .tabItem{
                      VStack{
                          Image(systemName: "play.circle.fill")
-                         Text("Popular")
+                         Text("Now Playing")
                          }
                  }
                  .tag(2)
@@ -113,9 +135,9 @@ struct ContentView: View {
             }.accentColor(Color.init(coloracc))
 
         }
-        
-        
-        
+
+
+
     }
 }
 
@@ -177,8 +199,8 @@ struct modeldatatype : Identifiable, Decodable {
     var original_title : String
     var vote_average : CGFloat
     var poster_path : String
-//    var backdrop_parth : String
-//    var overview : String
+    var backdrop_path : String
+    var overview : String
     var release_date : String
 }
 
@@ -191,17 +213,25 @@ struct ListRow : View {
     
     var body : some View{
         
-        HStack{
-            AnimatedImage(url: URL(string: "https://image.tmdb.org/t/p/w500\(url)")).resizable().clipShape(RoundedRectangle(cornerRadius: 25.0)).frame(width: 150, height: 150)
-            
-            VStack{
-                Text(name).fontWeight(.heavy)
-                Text("Rating = \(rating)")
-                Text(release_date).lineLimit(2)
+        VStack{
+            ZStack(alignment: .bottom){
+                AnimatedImage(url: URL(string: "https://image.tmdb.org/t/p/w500\(url)")).resizable().frame(width: 350, height: 200)
                 
-            }
+                VStack(alignment: .leading){
+                    Text(name).fontWeight(.heavy).foregroundColor(.white)
+                    .padding(.leading, 10)
+//                    Text("Rating = \(rating)").foregroundColor(.white)
+                    Divider().accentColor(.white)
+                    HStack{
+                        Text("Release date:").foregroundColor(.green)
+                            .fontWeight(.light)
+                        Text(release_date).lineLimit(2).foregroundColor(.green)
+                    }
+                    .padding(.leading, 10)
+                }.background(Color.black.opacity(0.5))
+                }.clipShape(RoundedRectangle(cornerRadius: 15.0)).frame(width: 350, height: 200)
+            .padding(.top, 10)
+            Divider()
         }
-        
-        
     }
 }

@@ -14,7 +14,8 @@
 		C73D8FC323F6E7660098BB9A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C73D8FC223F6E7660098BB9A /* Assets.xcassets */; };
 		C73D8FC623F6E7660098BB9A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C73D8FC523F6E7660098BB9A /* Preview Assets.xcassets */; };
 		C73D8FC923F6E7660098BB9A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C73D8FC723F6E7660098BB9A /* LaunchScreen.storyboard */; };
-		C762F8F623F8089600C00E9B /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = C762F8F523F8089600C00E9B /* SwiftPackageProductDependency */; };
+		C762F8F623F8089600C00E9B /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = C762F8F523F8089600C00E9B /* SDWebImageSwiftUI */; };
+		C7C7626123FA604500F60A5B /* HostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C7626023FA604500F60A5B /* HostingController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,7 @@
 		C73D8FC523F6E7660098BB9A /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		C73D8FC823F6E7660098BB9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C73D8FCA23F6E7660098BB9A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C7C7626023FA604500F60A5B /* HostingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostingController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,7 +38,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C762F8F623F8089600C00E9B /* BuildFile in Frameworks */,
+				C762F8F623F8089600C00E9B /* SDWebImageSwiftUI in Frameworks */,
 				1B9C26E5729B00C4EB1C3789 /* Pods_bootcamp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -81,6 +83,7 @@
 				C73D8FC723F6E7660098BB9A /* LaunchScreen.storyboard */,
 				C73D8FCA23F6E7660098BB9A /* Info.plist */,
 				C73D8FC423F6E7660098BB9A /* Preview Content */,
+				C7C7626023FA604500F60A5B /* HostingController.swift */,
 			);
 			path = bootcamp;
 			sourceTree = "<group>";
@@ -119,7 +122,7 @@
 			);
 			name = bootcamp;
 			packageProductDependencies = (
-				C762F8F523F8089600C00E9B /* SwiftPackageProductDependency */,
+				C762F8F523F8089600C00E9B /* SDWebImageSwiftUI */,
 			);
 			productName = bootcamp;
 			productReference = C73D8FB923F6E7630098BB9A /* bootcamp.app */;
@@ -150,7 +153,7 @@
 			);
 			mainGroup = C73D8FB023F6E7630098BB9A;
 			packageReferences = (
-				C762F8F423F8089600C00E9B /* RemoteSwiftPackageReference */,
+				C762F8F423F8089600C00E9B /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 			);
 			productRefGroup = C73D8FBA23F6E7630098BB9A /* Products */;
 			projectDirPath = "";
@@ -206,6 +209,7 @@
 			files = (
 				C73D8FBD23F6E7630098BB9A /* AppDelegate.swift in Sources */,
 				C73D8FBF23F6E7630098BB9A /* SceneDelegate.swift in Sources */,
+				C7C7626123FA604500F60A5B /* HostingController.swift in Sources */,
 				C73D8FC123F6E7630098BB9A /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -404,7 +408,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		C762F8F423F8089600C00E9B /* RemoteSwiftPackageReference */ = {
+		C762F8F423F8089600C00E9B /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI.git";
 			requirement = {
@@ -415,9 +419,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		C762F8F523F8089600C00E9B /* SwiftPackageProductDependency */ = {
+		C762F8F523F8089600C00E9B /* SDWebImageSwiftUI */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = C762F8F423F8089600C00E9B /* RemoteSwiftPackageReference */;
+			package = C762F8F423F8089600C00E9B /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
 			productName = SDWebImageSwiftUI;
 		};
 /* End XCSwiftPackageProductDependency section */
