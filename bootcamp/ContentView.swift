@@ -11,6 +11,8 @@ import SDWebImageSwiftUI
 
 struct ContentView: View {
     
+    @State private var showingAlert = false
+    
     @ObservedObject var obs = observer()
     
     let colorbg = UIColor(rgb: 0x081C24)
@@ -30,8 +32,7 @@ struct ContentView: View {
 //        UINavigationBar.appearance().titleTextAttributes = [
 //             .font : UIFont(name: "HelveticaNeue-Thin", size: 20)!]
     }
-    
-    
+
     var body: some View {
 
         ZStack{
@@ -46,19 +47,6 @@ struct ContentView: View {
                         .aspectRatio(contentMode: /*@START_MENU_TOKEN@*/.fill/*@END_MENU_TOKEN@*/)
                         .scaledToFit()
                         Divider()
-//                    .navigationBarItems(leading:
-//                    HStack {
-//                        Button(action: {}) {
-//                            Image(systemName: "minus.square.fill")
-//                                .font(.largeTitle)
-//                        }.foregroundColor(.pink)
-//                    }, trailing:
-//                    HStack {
-//                        Button(action: {}) {
-//                            Image(systemName: "plus.square.fill")
-//                                .font(.largeTitle)
-//                        }.foregroundColor(.blue)
-//                    })
                         ZStack() {
                             Color.init(colorbg)
                             .edgesIgnoringSafeArea(.all)
@@ -94,14 +82,24 @@ struct ContentView: View {
                 NavigationView{
                         ScrollView(.vertical){
                             VStack{
-                            ForEach(obs.movieList) {i in
-                            ListRow(url: i.poster_path, name: i.original_title, rating: i.vote_average, release_date: i.release_date)
+                                ForEach(self.obs.movieList) {i in
+                                ListRow(url: i.backdrop_path, name: i.original_title, rating: i.vote_average, release_date: i.release_date)
                                 }
                             }
-                            .background(Color.init(colortab))
+                            .background(Color.init(colorbg))
                         }
                         .navigationBarTitle("Popular")
-                        .background(Color.init(colortab))
+                        .background(Color.init(colorbg))
+                    .navigationBarItems(trailing:
+                    HStack {
+                        Button(action: {self.showingAlert = true}) {
+                            Image(systemName: "arrow.clockwise.circle.fill")
+                                .font(.largeTitle)
+                        }.foregroundColor(Color.init(coloracc))
+                        .alert(isPresented: $showingAlert) {
+                                Alert(title: Text("Update"), message: Text("Data telah diperbaharui"), dismissButton: .default(Text("OK")))
+                        }
+                    })
                     }
                  }
                  .tabItem{
@@ -146,7 +144,6 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
-
 
 extension UIColor {
    convenience init(red: Int, green: Int, blue: Int) {
@@ -208,30 +205,35 @@ struct ListRow : View {
     
     var url = ""
     var name = ""
-    var rating : CGFloat = 0
+    var rating : CGFloat
     var release_date = ""
     
     var body : some View{
-        
-        VStack{
-            ZStack(alignment: .bottom){
-                AnimatedImage(url: URL(string: "https://image.tmdb.org/t/p/w500\(url)")).resizable().frame(width: 350, height: 200)
-                
-                VStack(alignment: .leading){
-                    Text(name).fontWeight(.heavy).foregroundColor(.white)
-                    .padding(.leading, 10)
-//                    Text("Rating = \(rating)").foregroundColor(.white)
-                    Divider().accentColor(.white)
-                    HStack{
-                        Text("Release date:").foregroundColor(.green)
-                            .fontWeight(.light)
+            VStack{
+                ZStack(alignment: .bottom){
+                        AnimatedImage(url: URL(string: "https://image.tmdb.org/t/p/w500\(url)")).resizable()
+                    
+                    VStack(alignment: .leading){
+                         Text(name).fontWeight(.heavy).foregroundColor(.white)
+                                .padding(.leading, 10)
+                        Divider().accentColor(.white)
+                        HStack{
+                            Text("Release date:").foregroundColor(.green)
+                                .fontWeight(.light)
                         Text(release_date).lineLimit(2).foregroundColor(.green)
-                    }
-                    .padding(.leading, 10)
-                }.background(Color.black.opacity(0.5))
-                }.clipShape(RoundedRectangle(cornerRadius: 15.0)).frame(width: 350, height: 200)
-            .padding(.top, 10)
+                            
+                            HStack(alignment: .lastTextBaseline){
+                                Image(systemName: "star.circle").foregroundColor(.white)
+                                Text("\(rating)").foregroundColor(.white)
+                            }
+                            
+                                    }
+                                    .padding(.leading, 10)
+                                }.background(Color.black.opacity(0.5))
+                        }.clipShape(RoundedRectangle(cornerRadius: 15.0)).frame(width: 350, height: 200).padding(.top, 10)
+    
             Divider()
         }
     }
 }
+
